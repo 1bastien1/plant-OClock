@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "850181800810",
+    "firebase_url": "https://planto-clock-26cb5.firebaseio.com",
+    "project_id": "planto-clock-26cb5",
+    "storage_bucket": "planto-clock-26cb5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850181800810:android:ac3bf5467df3caeee21b13",
+        "android_client_info": {
+          "package_name": "com.plantoclock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850181800810-2ofauegp4aoeab69m85585d65sd1vbgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU917gFCX5iuKhbWtyTQu3QosYLtL1xTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850181800810-2ofauegp4aoeab69m85585d65sd1vbgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
