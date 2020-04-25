@@ -31,10 +31,10 @@ export async function saveNewCalendar() {
 
 /**
  *
- * @param {*} titre str
- * @param {*} dateDeb {jour: str, mois: str}
- * @param {*} dateFin {jour: str, mois: str}
- * @param {*} description str
+ * @param {string} titre
+ * @param {object} dateDeb {jour: str, mois: str}
+ * @param {object} dateFin {jour: str, mois: str}
+ * @param {string} description
  * TODO vérifier de faire aucun doublons dans les events
  */
 export async function createEventVegetable(
