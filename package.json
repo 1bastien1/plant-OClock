@@ -28,7 +28,6 @@
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.6.0",
-    "react-native-unimodules": "github:unimodules/core",
     "redux": "^4.0.5"
   },
   "devDependencies": {
