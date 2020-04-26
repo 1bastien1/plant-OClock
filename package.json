@@ -20,7 +20,7 @@
     "prettier": "^2.0.5",
     "react": "16.11.0",
     "react-native": "^0.62.2",
-    "react-native-calendar-events": "git+https://github.com/wmcmahan/react-native-calendar-events.git",
+    "react-native-calendar-events": "git+https://github.com/wmcmahan/react-native-calendar-events.git#835903b698da6486cacd907e31e018d62295b533",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-location": "^2.5.0",
@@ -29,7 +29,6 @@
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.6.0",
-    "react-native-unimodules": "github:unimodules/core",
     "redux": "^4.0.5"
   },
   "devDependencies": {
