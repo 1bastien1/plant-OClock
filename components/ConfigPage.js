@@ -6,17 +6,31 @@ import {getTest} from '../js/calendarAccess';
 import {removeAllCalendar} from '../js/calendarAccess';
 
 export default class ConfigPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {localisation: undefined};
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Input style={styles.input} placeholder="Votre ville" />
+        <Input
+          style={styles.input}
+          placeholder={
+            this.state.localisation == undefined
+              ? 'Votre ville'
+              : this.state.localisation
+          }
+        />
         <TouchableOpacity
           style={styles.input}
           onPress={async function () {
             await removeItemApp();
             await removeAllCalendar();
           }}>
-          <Text>Supprimer toutes les données de l'appli</Text>
+          <Text style={styles.text}>
+            Supprimer toutes les données de l'appli
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.input}
@@ -27,6 +41,13 @@ export default class ConfigPage extends Component {
         </TouchableOpacity>
       </View>
     );
+  }
+
+  componentDidMount() {
+    _retrieveData('localisation').then((localisation) => {
+      this.setState({localisation: localisation});
+      console.log('localisation :', this.state.localisation, localisation);
+    });
   }
 }
 
@@ -46,13 +67,14 @@ const styles = StyleSheet.create({
     height: 50,
   },
   container: {
-    flex: 10,
+    flex: 3,
     flexDirection: 'column',
     paddingTop: 0,
     paddingLeft: 25,
+    padding: 50,
   },
   input: {
-    flex: 0.2,
+    flex: 1,
     backgroundColor: 'white',
     marginLeft: 25,
     marginRight: 25,
