@@ -29,24 +29,28 @@ export default class Subscriber extends Component {
    *
    * @param {*} isSub
    * @param {*} name
-   * prend le légume à modifier (tab à 1 seul elt), modifie l'attr isSub, prend les autres légumes et concat les deux tableau
+   * prend le légume à modifier (tab à 1 seul elt), modifie l'attr isSub du légume, et remplace l'ancien légume par le nouveau
    * à optimiser
    */
   async setIsSubVegetable(isSub, name) {
     console.log('set isSub vegetable : ', isSub, name); //ok
     console.log('vegetables state before: ', this.state.vegetables);
     let vegetableToModify;
+    let otherVegetables = [];
     this.state.vegetables.forEach((v) => {
       if (name == v.name) {
         vegetableToModify = v;
+      } else {
+        otherVegetables.push(v);
       }
       //need break
     });
     vegetableToModify.isSub = isSub;
     console.log('mon legume choisi : ', vegetableToModify); //ok
+    console.log('autre légumes : ', otherVegetables);
     //maj state
     this.setState((prevState) => ({
-      vegetables: [...this.state.vegetables, vegetableToModify],
+      vegetables: [...otherVegetables, vegetableToModify],
     }));
     console.log('vegetables state after update: ', this.state.vegetables);
   }
