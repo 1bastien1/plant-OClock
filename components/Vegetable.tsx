@@ -37,7 +37,6 @@ export class Vegetable extends Component<iProps, iState> {
               et nécessite un ensolleiment de type : {this.getEnsolleiment(this.props.vegetable.soleil)}
    */
   render() {
-    console.log('render vegetable : ', this.props.vegetable);
     let card = (
       <View>
         <Card>
@@ -82,6 +81,7 @@ export class Vegetable extends Component<iProps, iState> {
               checked={this.props.vegetable.isSub}
               color="green"
               onPress={() => {
+                //state avoid using of event onPress(event) => {} may be updated
                 this.setState({checked: !this.state.checked});
                 this.props.majVegetable(!this.state.checked);
               }}
