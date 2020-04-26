@@ -159,7 +159,7 @@ export async function initDB() {
     _storeData('vegetables', JSON.stringify(values));
   }
   if (!localisation) {
-    _storeData('localisation', 'Paris');
+    _storeData('localisation', JSON.stringify('Paris'));
   }
 }
 
