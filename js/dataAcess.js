@@ -1,5 +1,4 @@
-import {AsyncStorage} from 'react-native';
-import {add} from 'react-native-reanimated';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const values = [
   {
@@ -153,8 +152,15 @@ export async function _retrieveData(name) {
 }
 
 export async function initDB() {
-  _storeData('vegetables', JSON.stringify(values));
-  _storeData('localisation', 'Paris');
+  let vegetables = await _retrieveData('vegetables');
+  let localisation = await _retrieveData('localisation');
+  console.log('vegetables initDB : ', vegetables);
+  if (!vegetables) {
+    _storeData('vegetables', JSON.stringify(values));
+  }
+  if (!localisation) {
+    _storeData('localisation', 'Paris');
+  }
 }
 
 /**
