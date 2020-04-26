@@ -14,24 +14,56 @@ import {
 export default class Subscriber extends Component {
   getAllVegetables() {
     _retrieveData('vegetables').then(
-      (vegetables) => this.setState({vegetables: vegetables}),
+      (vegetables) => {
+        this.setState({vegetables: vegetables});
+        console.log(
+          'retrieve all vegetables from storage mount subscriber : ',
+          vegetables,
+        );
+      },
       (reason) => console.warn('error retreive all vegetable : ', reason),
     );
   }
 
-  setIsSubVegetable(isSub, name) {
-    //erreur ici on en fait rien plutot utiliser un map
-    console.log('set isSub vegetable : ', isSub, name);
+  /**
+   *
+   * @param {*} isSub
+   * @param {*} name
+   * prend le légume à modifier (tab à 1 seul elt), modifie l'attr isSub, prend les autres légumes et concat les deux tableau
+   * à optimiser
+   */
+  async setIsSubVegetable(isSub, name) {
+    console.log('set isSub vegetable : ', isSub, name); //ok
+    console.log('vegetables state before: ', this.state.vegetables);
+    let vegetableToModify;
     this.state.vegetables.forEach((v) => {
-      if (v.name === name) {
-        v.isSub = isSub;
+      if (name == v.name) {
+        vegetableToModify = v;
       }
+      //need break
     });
+    vegetableToModify.isSub = isSub;
+    console.log('mon legume choisi : ', vegetableToModify); //ok
+    //maj state
+    this.setState((prevState) => ({
+      vegetables: [...this.state.vegetables, vegetableToModify],
+    }));
+    console.log('vegetables state after update: ', this.state.vegetables);
   }
 
-  majStoreddata() {
-    _storeData('vegetables', JSON.stringify(this.state.vegetables));
-    this.createAllEvent();
+  /**
+   * update asyncStorage from the state and create all event
+   */
+  async majStoreddata() {
+    console.log(
+      'will store async vegetables updated : ',
+      this.state.vegetables,
+    ); // store is correctly updated
+    await _storeData('vegetables', JSON.stringify(this.state.vegetables)); //_retrieveData is used to verify if data are correctly stored
+    _retrieveData('vegetables').then((vegetables) => {
+      console.log('vegetables after storage my boy : ', vegetables);
+    }); //ok data are same than expected
+    this.createAllEvent(); //ok all event are created than expected (so data are correctly store)
   }
 
   async createAllEvent() {
@@ -102,6 +134,7 @@ export default class Subscriber extends Component {
   }
 
   render() {
+    console.log('render sub : ', this.state.vegetables);
     return (
       <ScrollView style={styles.container}>
         {this.state.vegetables.map((v) => (
