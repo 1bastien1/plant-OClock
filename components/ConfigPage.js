@@ -14,31 +14,30 @@ export default class ConfigPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Input
-          style={styles.input}
-          placeholder={
-            this.state.localisation == undefined
-              ? 'Votre ville'
-              : this.state.localisation
-          }
-        />
-        <TouchableOpacity
-          style={styles.input}
-          onPress={async function () {
-            await removeItemApp();
-            await removeAllCalendar();
-          }}>
-          <Text style={styles.text}>
-            Supprimer toutes les données de l'appli
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.input}
-          onPress={async function () {
-            await fuckUp();
-          }}>
-          <Text>await test</Text>
-        </TouchableOpacity>
+        <View style={styles.firstView}>
+          <Text>Page de configuration</Text>
+        </View>
+        <View style={styles.inputView}>
+          <Text>Votre position : </Text>
+          <Input
+            placeholder={
+              this.state.localisation == undefined
+                ? 'Votre ville'
+                : this.state.localisation
+            }
+          />
+        </View>
+        <View style={styles.buttonView}>
+          <TouchableOpacity
+            onPress={async function () {
+              await removeItemApp();
+              await removeAllCalendar();
+            }}>
+            <Text style={styles.text}>
+              Supprimer toutes les données de l'appli
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -49,11 +48,6 @@ export default class ConfigPage extends Component {
       console.log('localisation :', this.state.localisation, localisation);
     });
   }
-}
-
-async function fuckUp() {
-  let toto = await getTest();
-  console.log('test function await : ', toto);
 }
 
 const styles = StyleSheet.create({
@@ -67,13 +61,11 @@ const styles = StyleSheet.create({
     height: 50,
   },
   container: {
-    flex: 3,
+    display: 'flex',
+    flex: 5,
     flexDirection: 'column',
-    paddingTop: 0,
-    paddingLeft: 25,
-    padding: 50,
   },
-  input: {
+  inputView: {
     flex: 1,
     backgroundColor: 'white',
     marginLeft: 25,
@@ -84,6 +76,30 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignContent: 'center',
+    alignItems: 'center',
+  },
+  buttonView: {
+    flex: 1,
+    backgroundColor: 'white',
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: '#5CB85C',
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: 'center',
+  },
+  firstView: {
+    flex: 3,
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: '#5CB85C',
+    borderRadius: 25,
+    borderBottomWidth: 2,
     alignItems: 'center',
   },
 });
