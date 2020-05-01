@@ -4,8 +4,6 @@ import CardCustom from './displayComponents/CardCustom';
 import {Button, Toast} from 'native-base';
 import {_storeData, _retrieveData, initDB} from '../js/dataAcess';
 import {saveNewCalendar, getAutorisations} from '../js/calendarAccess';
-import RNLocation from 'react-native-location';
-
 export default class Home extends Component {
   constructor(props) {
     super(props);

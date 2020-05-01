@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, ScrollView, TouchableOpacity, Text} from 'react-native';
 import {Toast} from 'native-base';
 import Vegetable from './Vegetable';
-import {getAllKeys, _retrieveData, _storeData} from '../js/dataAcess';
-import {LocalNotification} from '../js/pushNotificationService';
-import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import RNLocation from 'react-native-location';
+import {_retrieveData, _storeData} from '../js/dataAcess';
 import {
   createEventVegetable,
   removeAllEventCurrentCalendar,

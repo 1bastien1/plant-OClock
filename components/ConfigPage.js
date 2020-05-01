@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Spinner, Toast} from 'native-base';
 import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
-import {getTest} from '../js/calendarAccess';
 import {removeAllCalendar} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
 
