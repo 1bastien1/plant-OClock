@@ -157,7 +157,7 @@ export default class ConfigPage extends Component {
         (weather) => {
           console.log('weather : ', weather);
           this.setState({weather: weather, waiting: false});
-          _storeData('weather', weather);
+          _storeData('weather', JSON.stringify(weather));
         },
         (err) => {
           this.showToastErrorWeather();
