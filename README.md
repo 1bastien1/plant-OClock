@@ -52,6 +52,6 @@ les semis dehors et donc nécessite de les rentrer.
 - remplacer l'événement dans l'agenda par une notification de l'application directement.
 - mettre en place un plan de son potager sous forme de carré (1 carré = 1 plante)
 - page conseille amenant vers des liens sur des conseils jardinage (comment semer, comment planter, ..)
-- une page récapitulative avec des données météo lié à votre position.
+- une page récapitulative avec des données météo lié à votre position. -> DONE
 
 
