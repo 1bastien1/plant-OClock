@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Button, Input} from 'native-base';
+import {Spinner} from 'native-base';
 import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
 import {getTest} from '../js/calendarAccess';
 import {removeAllCalendar} from '../js/calendarAccess';
@@ -12,34 +12,41 @@ export default class ConfigPage extends Component {
     this.state = {
       localisation: {latitude: undefined, longitude: undefined},
       weather: undefined,
+      waiting: true,
     };
   }
 
   render() {
+    var infos;
+    var wait;
     if (this.state.weather != undefined) {
       let w = this.state.weather;
-      var infos = (
+      infos = (
         <View>
           <Text>
-            temp min/max/actuelle: {w.main.temp_min-273.15}°C,{w.main.temp_max-273.15}°C ,
-            {w.main.temp-273.15}°C
+            temp min/max/actuelle: {w.main.temp_min - 273.15}°C,
+            {w.main.temp_max - 273.15}°C ,{w.main.temp - 273.15}°C
           </Text>
           <Text>Pression: {w.main.pressure} Hpa</Text>
           <Text>Humidité: {w.main.humidity}%</Text>
-          <Text>Ressenti: {w.main.feels_like-273.15}°C</Text>
+          <Text>Ressenti: {w.main.feels_like - 273.15}°C</Text>
           <Text>
-            Vent: {w.wind.speed*1.60934}Km/h Dir: {w.wind.deg}°
+            Vent: {w.wind.speed * 1.60934}Km/h Dir: {w.wind.deg}°
           </Text>
           <Text>Couverture nuageuse: {w.clouds.all}%</Text>
           <Text>Description météo: {w.weather[0].description}</Text>
         </View>
       );
     }
+    if (this.state.waiting) {
+      wait = (<View><Spinner color="green" /></View>);
+    }
     return (
       <View style={styles.container}>
         <View style={styles.firstView}>
           <Text>Page de configuration</Text>
           {infos}
+          {wait}
         </View>
         <View style={styles.inputView}>
           <Text>Votre position : </Text>
@@ -150,7 +157,7 @@ export default class ConfigPage extends Component {
       .then(
         (weather) => {
           console.log('weather : ', weather);
-          this.setState({weather: weather});
+          this.setState({weather: weather, waiting: false});
         },
         (err) => {
           console.log(
