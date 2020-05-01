@@ -6,13 +6,11 @@ import {_storeData, _retrieveData, initDB} from '../js/dataAcess';
 import {saveNewCalendar, getAutorisations} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
 
-//api.openweathermap.org/data/2.5/weather?q={city name},FR&appid={your api key}
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      longitude: undefined,
-      latitude: undefined,
+      localisation: {latitude: undefined, longitude: undefined},
       weather: undefined,
     };
   }
@@ -51,11 +49,10 @@ export default class Home extends Component {
     //removeItemApp();
     saveNewCalendar();
     getAutorisations();
-    this.getWeather();
+    this.getLocalisationAndWeather();
   }
 
-  /**
- /* Example location returned
+  /* Example location returned
     {
       speed: -1,
       longitude: -0.1337,
@@ -68,65 +65,80 @@ export default class Home extends Component {
       timestamp: 1446007304457.029,
       fromMockProvider: false
     }
-*/
-  async getLocalisation() {
-    await RNLocation.requestPermission({
-      ios: 'whenInUse',
-      android: {
-        detail: 'coarse',
-      },
-    }).then((granted) => {
-      if (granted) {
-        this.locationSubscription = RNLocation.subscribeToLocationUpdates(
-          async (locations) => {
-            console.log('location : ', locations);
-            await _storeData(
-              'localisation',
-              JSON.stringify({
-                longitude: locations.longitude,
-                latitude: locations.latitude,
-              }),
-            );
-            this.setState({
-              localisation: {
-                longitude: locations.longitude,
-                latitude: locations.latitude,
+  */
+  /**
+   * setState the localisation {lat, long} and save it in asyncStorage (key: localisation) only if not already defined in component state
+   */
+  async getLocalisationAndWeather() {
+    if (this.state.localisation != undefined) {
+      await RNLocation.requestPermission({
+        ios: 'whenInUse',
+        android: {
+          detail: 'coarse',
+        },
+      })
+        .then((response) => {
+          return JSON.parse(response);
+        })
+        .then((granted) => {
+          if (granted) {
+            this.locationSubscription = RNLocation.subscribeToLocationUpdates(
+              (locations) => {
+                console.log('location : ', locations[0].longitude);
+                _storeData(
+                  'localisation',
+                  JSON.stringify({
+                    longitude: locations[0].longitude,
+                    latitude: locations[0].latitude,
+                  }),
+                );
+                this.setState({
+                  localisation: {
+                    longitude: locations[0].longitude,
+                    latitude: locations[0].latitude,
+                  },
+                });
+                this.getWeather(locations[0].latitude, locations[0].longitude);
               },
-            });
-          },
-        );
-      }
-    });
+            );
+          }
+        });
+    }
   }
 
-  async getWeather() {
-    await this.getLocalisation();
-    fetch(
-      'api.openweathermap.org/data/2.5/weather?lat=' +
-        this.state.latitude +
-        '&lon=' +
-        this.state.longitude +
-        '&appid=8bfd18a82183435001ca3f38713a00a5',
-    ).then(
-      (weather) => {
-        console.log('weather : ', weather);
-        this.setState({weather: weather});
-      },
-      (err) => {
-        console.log(
-          'error fetch weather : ',
-          err,
-          '//',
-          'api.openweathermap.org/data/2.5/weather?lat=' +
-            this.state.latitude +
-            '&lon=' +
-            this.state.longitude +
-            '&appid=8bfd18a82183435001ca3f38713a00a5',
-        );
-      },
-    );
-    //8bfd18a82183435001ca3f38713a00a5
-    //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
+  /**
+   * setState the weather
+   */
+  getWeather(lat, long) {
+    let tryUrl =
+      'http://api.openweathermap.org/data/2.5/weather?lat=' +
+      lat +
+      '&lon=' +
+      long +
+      '&appid=8bfd18a82183435001ca3f38713a00a5';
+    fetch(tryUrl)
+      .then((json) => json.json())
+      .then(
+        (weather) => {
+          console.log('weather : ', weather);
+          this.setState({weather: weather});
+          _storeData('weather', JSON.stringify(weather));
+        },
+        (err) => {
+          console.log(
+            'error fetch weather : ',
+            err,
+            '//',
+            'api.openweathermap.org/data/2.5/weather?lat=' +
+              lat +
+              '&lon=' +
+              long +
+              '&appid=8bfd18a82183435001ca3f38713a00a5&lang=fr',
+          );
+        },
+      );
+    //api key 8bfd18a82183435001ca3f38713a00a5
+    //api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=8bfd18a82183435001ca3f38713a00a5
   }
 }
 
