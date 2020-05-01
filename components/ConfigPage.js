@@ -4,7 +4,6 @@ import {Spinner, Toast} from 'native-base';
 import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
 import {removeAllCalendar} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
-
 export default class ConfigPage extends Component {
   constructor(props) {
     super(props);
@@ -82,11 +81,6 @@ export default class ConfigPage extends Component {
   componentDidMount() {
     _retrieveData('localisation').then((localisation) => {
       this.setState({localisation: localisation});
-      console.log('localisation config_page:', this.state.localisation);
-    });
-    _retrieveData('weather').then((weather) => {
-      this.setState({weather: weather});
-      console.log('weather config_page:', this.state.weather);
     });
     this.getLocalisationAndWeather();
   }
@@ -163,6 +157,7 @@ export default class ConfigPage extends Component {
         (weather) => {
           console.log('weather : ', weather);
           this.setState({weather: weather, waiting: false});
+          _storeData('weather', weather);
         },
         (err) => {
           this.showToastErrorWeather();
