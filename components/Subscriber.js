@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, TouchableOpacity, Text} from 'react-native';
-import {Button} from 'native-base';
+import {Toast} from 'native-base';
 import Vegetable from './Vegetable';
 import {getAllKeys, _retrieveData, _storeData} from '../js/dataAcess';
 import {LocalNotification} from '../js/pushNotificationService';
@@ -68,6 +68,16 @@ export default class Subscriber extends Component {
       console.log('vegetables after storage my boy : ', vegetables);
     }); //ok data are same than expected
     this.createAllEvent(); //ok all event are created than expected (so data are correctly store)
+    this.showToast();
+  }
+
+  showToast() {
+    Toast.show({
+      text: 'Mise à jour des abonnements effectuée !',
+      buttonText: 'Ok',
+      type: 'success',
+      duration: 2000,
+    });
   }
 
   async createAllEvent() {
@@ -94,37 +104,8 @@ export default class Subscriber extends Component {
     });
   }
 
-  getLocalisation() {
-    check(PERMISSIONS.ACCESS_FINE_LOCATION)
-      .then((result) => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-            console.log(
-              'This feature is not available (on this device / in this context)',
-            );
-            break;
-          case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
-            break;
-          case RESULTS.GRANTED:
-            console.log('The permission is granted');
-            RNLocation.getLatestLocation((info) => info);
-            break;
-          case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
-            break;
-        }
-      })
-      .catch((error) => {
-        console.log('error getLocalisation : ', error);
-      });
-  }
-
   componentDidMount() {
     this.getAllVegetables();
-    //console.log('localisation : ', this.getLocalisation());
   }
 
   /**
