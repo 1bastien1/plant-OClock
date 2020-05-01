@@ -21,7 +21,10 @@ export default class Subscriber extends Component {
           vegetables,
         );
       },
-      (reason) => console.warn('error retreive all vegetable : ', reason),
+      (reason) => {
+        this.showToastError();
+        console.warn('error retreive all vegetable : ', reason);
+      },
     );
   }
 
@@ -68,14 +71,23 @@ export default class Subscriber extends Component {
       console.log('vegetables after storage my boy : ', vegetables);
     }); //ok data are same than expected
     this.createAllEvent(); //ok all event are created than expected (so data are correctly store)
-    this.showToast();
+    this.showToastSuccess();
   }
 
-  showToast() {
+  showToastSuccess() {
     Toast.show({
       text: 'Mise à jour des abonnements effectuée !',
       buttonText: 'Ok',
       type: 'success',
+      duration: 2000,
+    });
+  }
+
+  showToastError() {
+    Toast.show({
+      text: 'Erreur dans la récupération des légumes',
+      buttonText: 'Ok',
+      type: 'Danger',
       duration: 2000,
     });
   }

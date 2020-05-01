@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, ImageBackground} from 'react-native';
 import CardCustom from './displayComponents/CardCustom';
-import {Button, Input} from 'native-base';
+import {Button, Toast} from 'native-base';
 import {_storeData, _retrieveData, initDB} from '../js/dataAcess';
 import {saveNewCalendar, getAutorisations} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
@@ -18,7 +18,6 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        
         <ImageBackground
           source={require('../assets/seedTest.jpg')}
           style={styles.backgroundImage}>
@@ -48,8 +47,22 @@ export default class Home extends Component {
   componentDidMount() {
     initDB();
     //removeItemApp();
-    saveNewCalendar();
-    getAutorisations();
+    getAutorisations().then((auto) => {
+      if (auto != 'authorized') {
+        this.showToastError();
+      } else {
+        saveNewCalendar();
+      }
+    });
+  }
+
+  showToastError() {
+    Toast.show({
+      text: "Erreur certaines autorisations n'ont pas été acceptée",
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
   }
 }
 

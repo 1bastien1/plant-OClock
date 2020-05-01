@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Spinner} from 'native-base';
+import {Spinner, Toast} from 'native-base';
 import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
 import {getTest} from '../js/calendarAccess';
 import {removeAllCalendar} from '../js/calendarAccess';
@@ -39,7 +39,11 @@ export default class ConfigPage extends Component {
       );
     }
     if (this.state.waiting) {
-      wait = (<View><Spinner color="green" /></View>);
+      wait = (
+        <View>
+          <Spinner color="green" />
+        </View>
+      );
     }
     return (
       <View style={styles.container}>
@@ -68,7 +72,7 @@ export default class ConfigPage extends Component {
               await removeAllCalendar();
             }}>
             <Text style={styles.text}>
-              Supprimer toutes les données de l'appli
+              Supprimer toutes les données de l'application
             </Text>
           </TouchableOpacity>
         </View>
@@ -137,6 +141,8 @@ export default class ConfigPage extends Component {
                 this.getWeather(locations[0].latitude, locations[0].longitude);
               },
             );
+          } else {
+            this.showToastErrorLocalisation();
           }
         });
     }
@@ -160,20 +166,39 @@ export default class ConfigPage extends Component {
           this.setState({weather: weather, waiting: false});
         },
         (err) => {
-          console.log(
-            'error fetch weather : ',
-            err,
-            '//',
-            'api.openweathermap.org/data/2.5/weather?lat=' +
-              lat +
-              '&lon=' +
-              long +
-              '&appid=8bfd18a82183435001ca3f38713a00a5',
-          );
+          this.showToastErrorWeather();
+          this.showToastErrorPerso(err);
         },
       );
     //api key 8bfd18a82183435001ca3f38713a00a5
     //api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=8bfd18a82183435001ca3f38713a00a5
+  }
+
+  showToastErrorWeather() {
+    Toast.show({
+      text: "Les données météo n'ont pas pu être récupérées",
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
+  }
+
+  showToastErrorLocalisation() {
+    Toast.show({
+      text: "Les données de localisation n'ont pas pu être récupérées",
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
+  }
+
+  showToastErrorPerso(text) {
+    Toast.show({
+      text: text,
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
   }
 }
 
