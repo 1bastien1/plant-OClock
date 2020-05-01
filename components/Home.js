@@ -4,6 +4,8 @@ import CardCustom from './displayComponents/CardCustom';
 import {Button, Toast} from 'native-base';
 import {_storeData, _retrieveData, initDB} from '../js/dataAcess';
 import {saveNewCalendar, getAutorisations} from '../js/calendarAccess';
+import {LocalNotification} from '../js/pushNotificationService';
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -52,11 +54,50 @@ export default class Home extends Component {
         saveNewCalendar();
       }
     });
+    _retrieveData('weather').then(
+      (weather) => {
+        this.setState({weather: weather});
+        this.sendNotifPush(weather);
+        console.log('weather config_page:', this.state.weather);
+      },
+      (err) => {
+        this.showToastErrorAsync();
+        this.showToastErrorPerso(err);
+      },
+    );
+  }
+
+  sendNotifPush(weather) {
+    console.log('weather test: ', weather.weather[0].main);
+    if (weather.weather[0].main == 'Rain') {
+      LocalNotification(
+        'De la pluie arrive !',
+        'De la pluie arrive ! Il faut rentrer les semis ! ',
+      );
+    }
   }
 
   showToastError() {
     Toast.show({
       text: "Erreur certaines autorisations n'ont pas été acceptée",
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
+  }
+
+  showToastErrorPerso(text) {
+    Toast.show({
+      text: text,
+      buttonText: 'Ok',
+      type: 'Danger',
+      duration: 2000,
+    });
+  }
+
+  showToastErrorAsync() {
+    Toast.show({
+      text: "Erreurdes données locales n'ont pas été récupérées",
       buttonText: 'Ok',
       type: 'Danger',
       duration: 2000,
