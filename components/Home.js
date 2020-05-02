@@ -56,8 +56,10 @@ export default class Home extends Component {
     });
     _retrieveData('weather').then(
       (weather) => {
-        this.setState({weather: weather});
-        this.sendNotifPush(weather);
+        if (weather) {
+          this.setState({weather: weather});
+          this.sendNotifPush(weather);
+        }
       },
       (err) => {
         this.showToastErrorAsync();
@@ -67,6 +69,7 @@ export default class Home extends Component {
   }
 
   sendNotifPush(weather) {
+    console.log('weather home page: ', weather);
     if (weather.weather[0].main == 'Rain') {
       LocalNotification(
         'De la pluie arrive !',
