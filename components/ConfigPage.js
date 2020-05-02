@@ -90,9 +90,6 @@ export default class ConfigPage extends Component {
   }
 
   componentDidMount() {
-    _retrieveData('localisation').then((localisation) => {
-      this.setState({localisation: localisation});
-    });
     this.getLocalisationAndWeather();
   }
 
