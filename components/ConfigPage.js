@@ -76,9 +76,11 @@ export default class ConfigPage extends Component {
         </View>
         <View style={styles.buttonView}>
           <TouchableOpacity
-            onPress={async function () {
+            onPress={async () => {
               await removeItemApp();
               await removeAllCalendar();
+              this.setState({weather: undefined, waiting: true});
+              this.getLocalisationAndWeather();
             }}>
             <Text style={styles.text}>
               Supprimer toutes les données de l'application
