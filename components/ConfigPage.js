@@ -22,7 +22,7 @@ export default class ConfigPage extends Component {
       infos = (
         <View style={styles.meteo}>
           <Text>
-            temp min/max/actuelle: 
+            temp min/max/actuelle:
             {(w.main.temp_min - 273.15).toFixed(0)}°C,
             {(w.main.temp_max - 273.15).toFixed(0)}°C ,
             {(w.main.temp - 273.15).toFixed(0)}°C
@@ -67,6 +67,15 @@ export default class ConfigPage extends Component {
         </View>
         <View style={styles.buttonView}>
           <TouchableOpacity
+            onPress={() => {
+              this.setState({weather: undefined, waiting: true});
+              this.getLocalisationAndWeather();
+            }}>
+            <Text style={styles.text}>Mettre à jour la météo</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonView}>
+          <TouchableOpacity
             onPress={async function () {
               await removeItemApp();
               await removeAllCalendar();
@@ -105,41 +114,47 @@ export default class ConfigPage extends Component {
    * setState the localisation {lat, long} and save it in asyncStorage (key: localisation) only if not already defined in component state
    */
   async getLocalisationAndWeather() {
-    if (this.state.localisation != undefined) {
-      await RNLocation.requestPermission({
-        ios: 'whenInUse',
-        android: {
-          detail: 'coarse',
-        },
+    await RNLocation.requestPermission({
+      ios: 'whenInUse',
+      android: {
+        detail: 'coarse',
+      },
+    })
+      .then((response) => {
+        return JSON.parse(response);
       })
-        .then((response) => {
-          return JSON.parse(response);
-        })
-        .then((granted) => {
-          if (granted) {
-            this.locationSubscription = RNLocation.subscribeToLocationUpdates(
-              (locations) => {
-                _storeData(
-                  'localisation',
-                  JSON.stringify({
-                    longitude: locations[0].longitude,
-                    latitude: locations[0].latitude,
-                  }),
-                );
-                this.setState({
-                  localisation: {
-                    longitude: locations[0].longitude,
-                    latitude: locations[0].latitude,
-                  },
-                });
-                this.getWeather(locations[0].latitude, locations[0].longitude);
-              },
-            );
-          } else {
-            this.showToastErrorLocalisation();
-          }
-        });
-    }
+      .then((granted) => {
+        if (granted) {
+          this.locationSubscription = RNLocation.getLatestLocation({
+            timeout: 10000,
+          }).then(
+            (locations) => {
+              _storeData(
+                'localisation',
+                JSON.stringify({
+                  longitude: locations.longitude,
+                  latitude: locations.latitude,
+                }),
+              );
+              this.setState({
+                localisation: {
+                  longitude: locations.longitude,
+                  latitude: locations.latitude,
+                },
+              });
+              this.getWeather(locations.latitude, locations.longitude);
+            },
+            (err) => {
+              this.showToastErrorLocalisation(err);
+              this.showToastErrorPerso(err);
+            },
+          );
+        } else {
+          this.showToastErrorPerso(
+            "la permission 'localisation' n'a pas été accpetée",
+          );
+        }
+      });
   }
 
   /**
