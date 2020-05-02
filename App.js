@@ -17,7 +17,7 @@ function App() {
     <Root>
       <NavigationContainer>
         <Tab.Navigator initialRouteName="Bienvenue !">
-          <Tab.Screen name="Bienvenue ! " component={Home} />
+          <Tab.Screen name="Bienvenue !" component={Home} />
           <Tab.Screen name="Abonnements" component={Subscriber} />
           <Tab.Screen name="Configuration" component={ConfigPage} />
         </Tab.Navigator>
