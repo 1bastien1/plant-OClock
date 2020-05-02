@@ -186,8 +186,10 @@ export function removeItemApp() {
   console.log('remove asyncStorage all data');
   getAllKeys().then((arrayKey) => {
     arrayKey.forEach((key) => {
-      AsyncStorage.removeItem(key, null, (error) =>
-        console.log('error delete item :', error),
+      AsyncStorage.removeItem(
+        key,
+        () => console.log('deleted item key : ', key),
+        (error) => console.log('error delete item :', error),
       );
     });
   });
