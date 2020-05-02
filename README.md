@@ -18,7 +18,7 @@ Développée lors du confinement pendant la crise du Covid-19, cette application
 Plusieurs choix techniques ont été faits, surtout pour une première release rapide :
 
 
-- l'utilisation de la bibliothèque [material-ui](https://github.com/mui-org/material-ui) - librairie graphique
+- l'utilisation de la bibliothèque [native-base](https://nativebase.io/) - librairie graphique
 
 Un système de notification push nécessite un backend et par manque de temps celui-ci n'est pas opérationnel.
 
