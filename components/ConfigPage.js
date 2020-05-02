@@ -20,16 +20,18 @@ export default class ConfigPage extends Component {
     if (this.state.weather != undefined) {
       let w = this.state.weather;
       infos = (
-        <View>
+        <View style={styles.meteo}>
           <Text>
-            temp min/max/actuelle: {w.main.temp_min - 273.15}°C,
-            {w.main.temp_max - 273.15}°C ,{w.main.temp - 273.15}°C
+            temp min/max/actuelle: 
+            {(w.main.temp_min - 273.15).toFixed(0)}°C,
+            {(w.main.temp_max - 273.15).toFixed(0)}°C ,
+            {(w.main.temp - 273.15).toFixed(0)}°C
           </Text>
           <Text>Pression: {w.main.pressure} Hpa</Text>
           <Text>Humidité: {w.main.humidity}%</Text>
-          <Text>Ressenti: {w.main.feels_like - 273.15}°C</Text>
+          <Text>Ressenti: {(w.main.feels_like - 273.15).toFixed(2)} °C</Text>
           <Text>
-            Vent: {w.wind.speed * 1.60934}Km/h Dir: {w.wind.deg}°
+            Vent: {(w.wind.speed * 1.60934).toFixed(2)} Km/h Dir: {w.wind.deg}°
           </Text>
           <Text>Couverture nuageuse: {w.clouds.all}%</Text>
           <Text>Description météo: {w.weather[0].description}</Text>
@@ -117,7 +119,6 @@ export default class ConfigPage extends Component {
           if (granted) {
             this.locationSubscription = RNLocation.subscribeToLocationUpdates(
               (locations) => {
-                console.log('location config page : ', locations[0].longitude);
                 _storeData(
                   'localisation',
                   JSON.stringify({
@@ -155,7 +156,6 @@ export default class ConfigPage extends Component {
       .then((json) => json.json())
       .then(
         (weather) => {
-          console.log('weather : ', weather);
           this.setState({weather: weather, waiting: false});
           _storeData('weather', JSON.stringify(weather));
         },
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     borderColor: '#5CB85C',
     borderRadius: 25,
     borderWidth: 2,
-    alignContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   buttonView: {
@@ -246,6 +246,19 @@ const styles = StyleSheet.create({
     borderColor: '#5CB85C',
     borderRadius: 25,
     borderBottomWidth: 2,
+    alignItems: 'center',
+  },
+  meteo: {
+    flex: 1,
+    backgroundColor: 'white',
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: '#5CB85C',
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });

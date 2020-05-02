@@ -58,7 +58,6 @@ export default class Home extends Component {
       (weather) => {
         this.setState({weather: weather});
         this.sendNotifPush(weather);
-        console.log('weather config_page:', this.state.weather);
       },
       (err) => {
         this.showToastErrorAsync();
@@ -68,11 +67,15 @@ export default class Home extends Component {
   }
 
   sendNotifPush(weather) {
-    console.log('weather test: ', weather.weather[0].main);
     if (weather.weather[0].main == 'Rain') {
       LocalNotification(
         'De la pluie arrive !',
         'De la pluie arrive ! Il faut rentrer les semis ! ',
+      );
+    } else if ((weather.main.temp - 273.15).toFixed(2) < 12) {
+      LocalNotification(
+        'La thermostat chute !',
+        'La thermostat chute ! Il faut rentrer les semis ! ',
       );
     }
   }
