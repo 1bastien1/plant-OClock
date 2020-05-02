@@ -46,7 +46,6 @@ export default class Home extends Component {
   }
   componentDidMount() {
     initDB();
-    //removeItemApp();
     getAutorisations().then((auto) => {
       if (auto != 'authorized') {
         this.showToastError();
