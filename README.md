@@ -40,7 +40,7 @@ Un [Système d'ajout d'évènement dans l'agenda local](https://github.com/wmcma
 ```
 - npm start
 ```
-
+une apk de la dernière release est également disponible au sein du projet: ./plantoclock/android/app/build/outputs/apk/release/app-release.apk
 
 ### Features éventuelles à venir
 
