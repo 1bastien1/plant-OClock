@@ -4,7 +4,6 @@ import CardCustom from './displayComponents/CardCustom';
 import {Button, Toast} from 'native-base';
 import {_storeData, _retrieveData, initDB} from '../js/dataAcess';
 import {saveNewCalendar, getAutorisations} from '../js/calendarAccess';
-import {LocalNotification} from '../js/pushNotificationService';
 
 export default class Home extends Component {
   constructor(props) {
@@ -53,33 +52,6 @@ export default class Home extends Component {
         saveNewCalendar();
       }
     });
-    _retrieveData('weather').then(
-      (weather) => {
-        if (weather) {
-          this.setState({weather: weather});
-          this.sendNotifPush(weather);
-        }
-      },
-      (err) => {
-        this.showToastErrorAsync();
-        this.showToastErrorPerso(err);
-      },
-    );
-  }
-
-  sendNotifPush(weather) {
-    console.log('weather home page: ', weather);
-    if (weather.weather[0].main == 'Rain') {
-      LocalNotification(
-        'De la pluie arrive !',
-        'De la pluie arrive ! Il faut rentrer les semis ! ',
-      );
-    } else if ((weather.main.temp - 273.15).toFixed(2) < 12) {
-      LocalNotification(
-        'La thermostat chute !',
-        'La thermostat chute ! Il faut rentrer les semis ! ',
-      );
-    }
   }
 
   showToastError() {

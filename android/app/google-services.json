@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "850181800810",
-    "firebase_url": "https://planto-clock-26cb5.firebaseio.com",
-    "project_id": "planto-clock-26cb5",
-    "storage_bucket": "planto-clock-26cb5.appspot.com"
+    "project_number": "874165912511",
+    "firebase_url": "https://plantoclock-5f47b.firebaseio.com",
+    "project_id": "plantoclock-5f47b",
+    "storage_bucket": "plantoclock-5f47b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:850181800810:android:ac3bf5467df3caeee21b13",
+        "mobilesdk_app_id": "1:874165912511:android:6db4d7e3101ad301e3170a",
         "android_client_info": {
           "package_name": "com.plantoclock"
         }
       },
       "oauth_client": [
         {
-          "client_id": "850181800810-2ofauegp4aoeab69m85585d65sd1vbgp.apps.googleusercontent.com",
+          "client_id": "874165912511-1938h18gun4fo1qifnjic73t3401il23.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBU917gFCX5iuKhbWtyTQu3QosYLtL1xTY"
+          "current_key": "AIzaSyByBJWkF2tEHo_pv0EsvF1fUroGUe0bwuk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "850181800810-2ofauegp4aoeab69m85585d65sd1vbgp.apps.googleusercontent.com",
+              "client_id": "874165912511-1938h18gun4fo1qifnjic73t3401il23.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 //Root for toast native-base
 import {Root} from 'native-base';
+import PushController from './js/pushNotificationService';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,6 +23,7 @@ function App() {
           <Tab.Screen name="Configuration" component={ConfigPage} />
         </Tab.Navigator>
       </NavigationContainer>
+      <PushController />
     </Root>
   );
 }

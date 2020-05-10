@@ -1,19 +1,32 @@
+import React, {Component} from 'react';
 import PushNotification from 'react-native-push-notification';
+// var PushNotification = require("react-native-push-notification");
 
-PushNotification.configure({
-  // (required) Called when a remote or local notification is opened or received
-  onNotification: function (notification) {
-    console.log('LOCAL NOTIFICATION ==>', notification);
-  },
-  popInitialNotification: true,
-  requestPermissions: true,
-});
+export default class PushController extends Component {
+  componentDidMount() {
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function (token) {
+        console.log('TOKEN:', token);
+      },
 
-/**
- *
- * @param {*} bigText notif text when notification is deployed (user open notification bar)
- * @param {*} msg body msg when notification is showed in notification bar (user made nothing) and when notification appear
- */
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: function (notification) {
+        console.log('NOTIFICATION:', notification);
+        LocalNotification('titi', 'toto');
+      },
+      // Android only
+      senderID: '874165912511',
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+  }
+
+  render() {
+    return null;
+  }
+}
+
 export const LocalNotification = (bigText, msg) => {
   PushNotification.localNotification({
     autoCancel: true,

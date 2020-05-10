@@ -4,6 +4,8 @@ import {Spinner, Toast} from 'native-base';
 import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
 import {removeAllCalendar} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
+import {LocalNotification} from '../js/pushNotificationService';
+
 export default class ConfigPage extends Component {
   constructor(props) {
     super(props);
@@ -144,8 +146,7 @@ export default class ConfigPage extends Component {
               this.getWeather(locations.latitude, locations.longitude);
             },
             (err) => {
-              this.showToastErrorLocalisation(err);
-              this.showToastErrorPerso(err);
+              this.showToastErrorLocalisation();
             },
           );
         } else {
@@ -161,7 +162,7 @@ export default class ConfigPage extends Component {
    */
   getWeather(lat, long) {
     let tryUrl =
-      'http://api.openweathermap.org/data/2.5/weather?lat=' +
+      'https://api.openweathermap.org/data/2.5/weather?lat=' +
       lat +
       '&lon=' +
       long +
@@ -171,15 +172,31 @@ export default class ConfigPage extends Component {
       .then(
         (weather) => {
           this.setState({weather: weather, waiting: false});
+          this.sendNotifPush(weather);
           _storeData('weather', JSON.stringify(weather));
         },
         (err) => {
           this.showToastErrorWeather();
-          this.showToastErrorPerso(err);
+          this.setState({waiting: false});
         },
       );
     //api key 8bfd18a82183435001ca3f38713a00a5
     //api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=8bfd18a82183435001ca3f38713a00a5
+  }
+
+  sendNotifPush(weather) {
+    console.log('weather home page: ', weather);
+    if (weather.weather[0].main == 'Rain') {
+      LocalNotification(
+        'De la pluie arrive !',
+        'De la pluie arrive ! Il faut rentrer les semis ! ',
+      );
+    } else if ((weather.main.temp - 273.15).toFixed(2) < 13) {
+      LocalNotification(
+        'La thermostat chute !',
+        'La thermostat chute ! Il faut rentrer les semis ! ',
+      );
+    }
   }
 
   showToastErrorWeather() {
