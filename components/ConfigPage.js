@@ -5,7 +5,7 @@ import {_storeData, _retrieveData, removeItemApp} from '../js/dataAcess';
 import {removeAllCalendar} from '../js/calendarAccess';
 import RNLocation from 'react-native-location';
 import {LocalNotification} from '../js/pushNotificationService';
-
+import accuWeather from '../js/apiKeys';
 export default class ConfigPage extends Component {
   constructor(props) {
     super(props);
@@ -166,7 +166,8 @@ export default class ConfigPage extends Component {
       lat +
       '&lon=' +
       long +
-      '&appid=8bfd18a82183435001ca3f38713a00a5';
+      '&appid=' +
+      accuWeather;
     fetch(tryUrl)
       .then((json) => json.json())
       .then(

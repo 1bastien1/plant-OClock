@@ -1,3 +1,7 @@
+#config or api keys
+google-services.json
+apiKeys.js
+
 # OSX
 #
 .DS_Store
