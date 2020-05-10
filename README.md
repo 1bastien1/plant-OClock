@@ -9,7 +9,7 @@ et ceci afin de vous rappeler la date des semis.
 
 ## TODO list
 
-aucune tâche en cours
+L'ajout des notifications à distance est en phase de test : firebase + [rn-push-notification](https://github.com/zo0r/react-native-push-notification/)
 
 ## Contexte : 
 
